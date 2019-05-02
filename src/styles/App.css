@@ -1,0 +1,21 @@
+div.ui.center.aligned.container{
+    margin-top: 20%;
+}
+
+div.column{
+    padding: 0px 0px 0px 0px !important;
+}
+
+.row{
+    width: 30%;
+    margin-left: 35%
+}
+
+.box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid green;
+    height: 60px;
+    padding-left: 40%; 
+}
