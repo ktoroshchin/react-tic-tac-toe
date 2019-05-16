@@ -28,7 +28,7 @@ class App extends Component {
             ['2','4','6']    
         ];
 
-        winner.forEach((array, index) => {
+        winner.forEach((array) => {
             array.forEach((value, index) => {
                 if(board[array[0]] && board[array[0]] === board[array[1]] && board[array[0]] === board[array[2]]){
                     this.setState({
@@ -45,7 +45,7 @@ class App extends Component {
 //computer play logic, making sure it marks only empty box
     computerTurn = (newBoard) => {
         let availIndex = []; 
-        newBoard.forEach((elem, index, arr)=>{
+        newBoard.forEach((elem, index)=>{
             if(elem === null){
                 availIndex = [...availIndex,index]
             }
@@ -54,14 +54,19 @@ class App extends Component {
         let randomIndexValue = availIndex[randomIndex]
         newBoard[randomIndexValue] = this.state.player
         this.setState({
-            board: newBoard,
-            player: this.state.player === 'O' ? 'X' : 'O'
+            board: newBoard
         })
-        this.checkForWinner()
+        if(!this.checkForWinner()){
+            this.setState({
+                player: this.state.player === 'O' ? 'X' : 'O'
+            })
+        }
     };
 
 //main game logic, where field gets marked on box click
     handleClick = (index) => {
+        this.checkForWinner()            
+
         const { player, board, winner, opponent } = this.state;
         if(opponent === 'person' && !winner) {
             const newBoard = this.state.board;
@@ -76,17 +81,20 @@ class App extends Component {
         }
         if(opponent === 'computer' && !winner) {
             const newBoard = this.state.board;
+            
             if(!board[index] && !winner) {
                 newBoard[index] = player;
                 this.setState({
                     board: newBoard,
-                    player: this.state.player === 'O' ? 'X' : 'O'
-                }) 
+                })
                 if(!this.checkForWinner()){
+                    this.setState({
+                        player: this.state.player === 'O' ? 'X' : 'O'
+                    })
                     setTimeout(() => this.computerTurn(newBoard,player, winner),
                     50) 
-                }
-            }             
+                } 
+            }
         }
     };
 
